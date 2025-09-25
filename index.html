@@ -28,80 +28,184 @@
       font-weight: 600;
     }
 
-    header {
-      background: rgba(255, 255, 255, 0.95);
-      color: #333;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-    }
+    /* Header */
+header {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
 
-    .header-left {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
+/* Logo */
+.logo-container img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #ff5722;
+  box-shadow: 0 3px 8px rgba(255, 87, 34, 0.3);
+}
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-    }
+header h1 {
+  font-size: 28px;
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  margin: 0;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 36px;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(45deg, #ff5722, #ff9800);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 700;
-    }
+/* Nav tabs */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+  flex: 1 1 100%; /* take full width on small screens */
+}
 
-    header img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-right: 15px;
-      border: 3px solid #ff5722;
-      box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3);
-    }
+nav a {
+  color: #333;
+  margin: 5px 10px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 16px;
+}
 
-    .slogan {
-      font-size: 16px;
-      font-weight: 400;
-      font-style: italic;
-      color: #666;
-      margin-left: 95px;
-      animation: fadeInOut 3s infinite;
-    }
+nav a:hover {
+  color: #ff5722;
+  background: rgba(255, 87, 34, 0.1);
+  transform: translateY(-2px);
+}
 
-    @keyframes fadeInOut {
-      0% { opacity: 0.7; }
-      50% { opacity: 1; }
-      100% { opacity: 0.7; }
-    }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
 
-    nav a {
-      color: #333;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
-      padding: 8px 15px;
-      border-radius: 25px;
-    }
-    nav a:hover { 
-      color: #ff5722; 
-      background: rgba(255, 87, 34, 0.1);
-      transform: translateY(-2px);
-    }
+  .logo-container {
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  .logo-container img {
+    width: 50px;
+    height: 50px;
+  }
+
+  nav a {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+/* Header container */
+header {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between; /* logo left, toggle right */
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+
+}
+/* Force single row menu on small phones */
+@media (max-width: 480px) {
+  nav {
+    display: flex !important;
+    flex-wrap: nowrap;              /* keep in one row */
+    justify-content: space-between; /* spread evenly */
+    width: 100%;
+    overflow-x: auto;               /* allow side-scroll if too many items */
+    background: white;
+    padding: 6px 0;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  }
+
+  nav::-webkit-scrollbar {
+    display: none; /* hide scrollbar for clean look */
+  }
+
+  nav a {
+    flex: 1 0 auto;                /* shrink but stay readable */
+    margin: 0;
+    font-size: 13px;
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;           /* prevent breaking text */
+  }
+
+  nav a i {
+    display: none; /* hide icons, keep only text */
+  }
+
+  .hamburger {
+    display: none; /* no hamburger menu needed */
+  }
+}
+
+
+/* Hamburger (always on the right) */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+  margin-left: auto; /* pushes it to the far right */
+}
+
+.hamburger:hover {
+  background: rgba(255, 87, 34, 0.1);
+}
+
+@media (max-width: 480px) {
+  nav {
+    display: flex !important;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    overflow-x: auto;
+    background: white;
+    padding: 6px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    flex: 1 0 auto;
+    margin: 0;
+    font-size: 13px;
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  nav a i { display: none; }
+  .hamburger { display: none; }
+}
+
+
+
 
     .notification {
       background: linear-gradient(90deg, #ff5722, #ff9800);
@@ -270,75 +374,92 @@
       margin: 10px auto;
       border-radius: 2px;
     }
-    .notification {
+   /* Notification bar container */
+.notification {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
   box-sizing: border-box;
   background: #ffeb3b; /* yellow background */
-  color: #000; /* text color */
+  color: #000;
   font-weight: bold;
   padding: 10px;
   border-bottom: 2px solid #f57c00;
+  position: relative;
 }
 
-.notification i {
-  margin-right: 8px;
-  color: #e91e63;
+/* Moving text inside */
+.notification span {
+  display: inline-block;
+  padding-left: 100%; /* start off screen */
+  animation: moveText 15s linear infinite; /* default speed */
 }
 
-.notification {
-  animation: moveText 25s linear infinite; /* slower speed */
-}
-
+/* Animation */
 @keyframes moveText {
-  0% {
-    transform: translateX(100%);
+  from {
+    transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-100%);
   }
 }
-   /* Notification Button */
+
+/* Slower on smaller screens */
+@media (max-width: 768px) {
+  .notification span {
+    animation-duration: 25s; /* slower for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .notification span {
+    animation-duration: 35s; /* extra slow for very small screens */
+  }
+}
+
+ /* Notification Bell */
 .notification-btn {
-    position: fixed;
-    top: 140px; /* Changed from 100px to 140px */
-    right: 25px;
-    background: linear-gradient(45deg, #ff5722, #ff9800);
-    color: white;
-    width: 60px; /* Increased from 50px */
-    height: 60px; /* Increased from 50px */
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
-    z-index: 99;
-    transition: all 0.3s;
-    font-size: 24px; /* Increased from 20px */
+  position: fixed;
+  top: 15vh;            /* relative to screen height */
+  right: 2vw;           /* relative to screen width */
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+  z-index: 100;
+  transition: all 0.3s;
+  font-size: clamp(16px, 2vw, 22px); /* responsive icon size */
+  width: clamp(45px, 6vw, 55px);     /* auto-resize with screen */
+  height: clamp(45px, 6vw, 55px);
 }
 
 .notification-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
 }
 
+/* Badge inside bell */
 .notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #f44336;
-    color: white;
-    border-radius: 50%;
-    width: 24px; /* Increased from 20px */
-    height: 24px; /* Increased from 20px */
-    font-size: 14px; /* Increased from 12px */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #f44336;
+  color: white;
+  border-radius: 50%;
+  width: clamp(18px, 3vw, 22px);
+  height: clamp(18px, 3vw, 22px);
+  font-size: clamp(11px, 2vw, 13px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
+
 
 /* Notification Panel */
 .notification-panel {
@@ -1436,15 +1557,23 @@ footer {
 </head>
 <body>
 
+<!-- Header -->
 <header>
   <div class="header-left">
     <div class="logo-container">
-      <img src="https://via.placeholder.com/80" alt="DMNsales Logo"> 
+      <img src="https://via.placeholder.com/60" alt="DMNsales Logo"> 
       <h1>DMNsales</h1>
     </div>
     <span class="slogan">The Future You Imagine</span>
   </div>
-  <nav>
+
+  <!-- Hamburger button -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  <!-- Navigation menu -->
+  <nav id="navMenu">
     <a href="#home"><i class="fas fa-home"></i> Home</a>
     <a href="#products"><i class="fas fa-box"></i> Products</a>
     <a href="#services"><i class="fas fa-cogs"></i> Services</a>
@@ -1453,10 +1582,13 @@ footer {
   </nav>
 </header>
 
+
 <div class="notification">
-  <i class="fas fa-gift"></i>
-  Working on display issue. Kindly mkue wapole jamani.. 
+  <span>
+    <i class="fas fa-gift"></i> DISPLAY FIXED🎉 Check out the improved website — new features, notification bell, search tab & fixed bugs... Enjoy the site!.TEXT ME THROUGH OUR CHAT BOX INCASE YOU ENCOUNTER ANY PROBLEM . ILL RESPOND AS SOON ASK I CAN 🎉
+  </span>
 </div>
+
 <!-- Notification Panel -->
 <div class="notification-panel" id="notificationPanel">
     <div class="notification-header">
@@ -1933,6 +2065,14 @@ footer {
       updateNotificationTimes(); // refresh times when opening
     }
   }
+  function toggleMenu() {
+    const navMenu = document.getElementById('navMenu');
+    if (navMenu.style.display === "flex") {
+      navMenu.style.display = "none";
+    } else {
+      navMenu.style.display = "flex";
+    }
+  }
 
   function markAllAsRead() {
     document.querySelectorAll('.notification-item.unread').forEach(item => {
@@ -2160,6 +2300,17 @@ footer {
     const message = "Hello, Hello! I would like some assistance. Could you please help me with.................?";
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
+  }
+  function showDetails(name, price, description, image) {
+    document.getElementById('modalProductName').innerText = name;
+    document.getElementById('modalProductPrice').innerText = price;
+    document.getElementById('modalProductDescription').innerText = description;
+    document.getElementById('modalProductImage').src = image;
+    document.getElementById('productModal').style.display = 'flex';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
   }
 
 
