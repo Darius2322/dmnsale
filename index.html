@@ -241,6 +241,36 @@ header {
     font-size: 14px;
     line-height: 1.5;
 }
+/* Add to Cart button inside modal */
+.modal .add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  border: none;
+  padding: 14px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(255, 87, 34, 0.4);
+  margin-top: 15px;
+  width: 100%;
+}
+
+.modal .add-btn:hover {
+  background: linear-gradient(45deg, #e64a19, #f57c00);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
+}
+
+.modal .add-btn i {
+  font-size: 20px;
+}
+
 
 .whatsapp-btn {
     background: #25D366;
@@ -1553,6 +1583,165 @@ footer {
 
 
     }
+    /* Professional Mobile View */
+@media (max-width: 768px) {
+  body {
+    background: #f8f9fa; /* clean background for readability */
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0;
+    margin: 0;
+  }
+
+  header {
+    border-bottom: 1px solid #eee;
+    box-shadow: none; /* reduce heavy shadows on mobile */
+  }
+
+  .hero {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+  }
+
+  .hero h2 {
+    font-size: 28px;
+    line-height: 1.3;
+    color: #fff;
+  }
+
+  .hero p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #fdfdfd;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 260px;
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  .products, .services {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin: 20px 0;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .card button {
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 30px;
+    width: 100%; /* buttons span full width on mobile */
+  }
+
+  .contact-section {
+    margin: 20px;
+    border-radius: 12px;
+    padding: 30px 15px;
+  }
+
+  footer {
+    padding: 40px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 60px 15px;
+  }
+
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  nav a {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .cart, .whatsapp-btn {
+    width: auto;
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: 25px;
+  }
+}
+/* Tablet screens */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  h1 { font-size: 26px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 18px; }
+  p, a, button {
+    font-size: 14px;
+  }
+
+  .notification {
+    font-size: 14px;
+  }
+
+  .cta-button {
+    font-size: 15px;
+    padding: 12px 20px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1 { font-size: 22px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 16px; }
+  p, a, button {
+    font-size: 13px;
+  }
+
+  .notification {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .cta-button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .cart, .whatsapp-btn {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}
+
   </style>
 <script>
 var script = document.createElement('script');
@@ -2008,16 +2197,16 @@ document.getElementsByTagName('head')[0].appendChild(script);
         </div>
         <div class="form-group"> 
             <label for="deliveryDate">Preferred Delivery Date:</label>
-             <input type="date" id="deliveryDate" name="deliveryDate" required>
+             <input type="date" id="deliveryDate" name="deliveryDate">
          </div>
         <div class="form-group">
            <label for="deliveryTime">Preferred Delivery Time:</label>
-           <input type="time" id="deliveryTime" name="deliveryTime" required>
+           <input type="time" id="deliveryTime" name="deliveryTime" >
          </div>
         
         <div class="form-group">
           <label for="customerAddress">Delivery Address</label>
-          <textarea id="customerAddress" placeholder="Enter your delivery address" required></textarea>
+          <textarea id="customerAddress" placeholder="Enter your delivery address" ></textarea>
         </div>
         <div class="form-group">
           <label for="paymentMethod">Payment Method</label>
@@ -2076,6 +2265,32 @@ document.getElementsByTagName('head')[0].appendChild(script);
       markAllAsRead();
       updateNotificationTimes(); // refresh times when opening
     }
+    document.addEventListener("DOMContentLoaded", () => {
+  const notificationItems = document.querySelectorAll(".notification-item");
+
+  // Get last read timestamp from localStorage
+  let lastRead = localStorage.getItem("lastNotificationRead");
+
+  // Hide old notifications based on timestamp
+  if (lastRead) {
+    notificationItems.forEach(item => {
+      let itemTime = new Date(item.dataset.time).getTime();
+      if (itemTime <= new Date(lastRead).getTime()) {
+        item.style.display = "none"; // hide old
+      }
+    });
+  }
+
+  // Mark notifications as read on click
+  notificationItems.forEach(item => {
+    item.addEventListener("click", () => {
+      let now = new Date();
+      localStorage.setItem("lastNotificationRead", now.toISOString());
+      item.classList.remove("unread");
+      item.style.display = "none"; // remove immediately
+    });
+  });
+});
   }
   function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
@@ -2313,13 +2528,23 @@ document.getElementsByTagName('head')[0].appendChild(script);
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   }
-  function showDetails(name, price, description, image) {
-    document.getElementById('modalProductName').innerText = name;
-    document.getElementById('modalProductPrice').innerText = price;
-    document.getElementById('modalProductDescription').innerText = description;
-    document.getElementById('modalProductImage').src = image;
-    document.getElementById('productModal').style.display = 'flex';
-  }
+function showDetails(name, price, description, image) {
+  // Save product info for the modal cart button
+  currentProduct = {
+    name: name,
+    price: parseInt(price.replace(/[^0-9]/g, "")) // extract number from "KES 20,000"
+  };
+
+  // Update modal content
+  document.getElementById('modalProductName').innerText = name;
+  document.getElementById('modalProductPrice').innerText = price;
+  document.getElementById('modalProductDescription').innerText = description;
+  document.getElementById('modalProductImage').src = image;
+
+  // Show modal
+  document.getElementById('productModal').style.display = 'flex';
+}
+
 
   function closeModal(id) {
     document.getElementById(id).style.display = 'none';
