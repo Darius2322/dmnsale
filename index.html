@@ -158,6 +158,127 @@ header {
   nav a i {
     display: none; /* hide icons, keep only text */
   }
+  /* ===== ADD THIS NEW CSS ===== */
+/* Scroll-based compact navigation - CSS Only */
+@media (max-width: 768px) {
+  nav {
+    transition: all 0.3s ease;
+  }
+  
+  nav a {
+    flex-direction: column;
+    padding: 8px 10px;
+    min-width: 50px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  nav a i {
+    font-size: 18px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hide text by default on mobile */
+  nav a span.text {
+    font-size: 11px;
+    display: block;
+    margin-top: 2px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* When body has scrolled-down class, hide text */
+  body.scrolled-down nav a span.text {
+    opacity: 0;
+    transform: translateY(5px);
+    height: 0;
+    margin: 0;
+  }
+  
+  /* Compact mode when scrolled */
+  body.scrolled-down nav a {
+    padding: 8px 8px;
+    min-width: 45px;
+  }
+  
+  body.scrolled-down nav a i {
+    font-size: 16px;
+  }
+}
+
+/* For very small phones */
+@media (max-width: 480px) {
+  nav a {
+    padding: 6px 8px;
+    min-width: 45px;
+  }
+  
+  nav a i {
+    font-size: 16px;
+  }
+  
+  body.scrolled-down nav a {
+    padding: 6px 6px;
+    min-width: 40px;
+  }
+}
+/* ===== END OF NEW CSS ===== */
+
+/* ===== ADD THIS FOR ACTIVE TAB INDICATOR ===== */
+/* Show current tab name with highlight */
+@media (max-width: 768px) {
+  nav a.active span.text {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    height: auto !important;
+    margin-top: 2px !important;
+    font-weight: 600;
+    color: #ff5722;
+  }
+  
+  nav a.active {
+    background: rgba(255, 87, 34, 0.15) !important;
+    border: 1px solid rgba(255, 87, 34, 0.3);
+  }
+  
+  nav a.active i {
+    color: #ff5722;
+  }
+  
+  /* Always show text for active tab even when scrolled */
+ 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fallback for older browsers */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Hide all tab names by default */
+nav a span.text {
+  display: none !important;  /* hard hide */
+  transition: none !important; /* kill animations */
+}
+
+/* Show text only for the active tab */
+nav a.active span.text {
+  display: block !important;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
+  color: #ff5722;
+}
+
 
   .hamburger {
     display: none; /* no hamburger menu needed */
@@ -1807,13 +1928,14 @@ document.getElementsByTagName('head')[0].appendChild(script);
   </div>
 
   <!-- Navigation menu -->
-  <nav id="navMenu">
-    <a href="#home"><i class="fas fa-home"></i> Home</a>
-    <a href="#products"><i class="fas fa-box"></i> Products</a>
-    <a href="#services"><i class="fas fa-cogs"></i> Services</a>
-    <a href="#reviews"><i class="fas fa-star"></i> Reviews</a>
-    <a href="#contact"><i class="fas fa-phone"></i> Contact</a>
-  </nav>
+<nav id="navMenu">
+  <a href="#home" class="active"><i class="fas fa-home"></i><span class="text">Home</span></a>
+  <a href="#products"><i class="fas fa-box"></i><span class="text">Products</span></a>
+  <a href="#services"><i class="fas fa-cogs"></i><span class="text">Services</span></a>
+  <a href="#reviews"><i class="fas fa-star"></i><span class="text">Reviews</span></a>
+  <a href="#contact"><i class="fas fa-phone"></i><span class="text">Contact</span></a>
+</nav>
+
 </header>
 
 
@@ -2289,6 +2411,29 @@ document.getElementsByTagName('head')[0].appendChild(script);
 </div>
 
 <script>
+document.addEventListener("scroll", () => {
+  const sections = document.querySelectorAll("section");
+  const navLinks = document.querySelectorAll("nav a");
+
+  let current = "";
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+});
+</script>
+
+<script>
   // ===================== NOTIFICATIONS =====================
   function toggleNotifications() {
     const panel = document.getElementById('notificationPanel');
@@ -2681,50 +2826,82 @@ function showSuccessMessage(msg) {
 
 </script>
 <script>
-  let lastScrollTop = 0;
- let lastScrollTop = 0;
+let lastScrollTop = 0;
 let scrollTimeout;
-let isTextHidden = false;
 
-window.addEventListener("scroll", function () {
-  const navLinks = document.querySelectorAll("nav a");
-  let st = window.pageYOffset || document.documentElement.scrollTop;
+// Function to update active nav link based on scroll position
+function updateActiveNav() {
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav a');
+  
+  let currentSection = '';
+  const scrollPos = window.scrollY + 100; // Offset for better detection
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const sectionId = section.getAttribute('id');
+    
+    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+      currentSection = sectionId;
+    }
+  });
+  
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const href = link.getAttribute('href').replace('#', '');
+    if (href === currentSection) {
+      link.classList.add('active');
+    }
+  });
+}
 
-  if (window.innerWidth <= 768) {
+// Scroll event for compact navigation
+window.addEventListener("scroll", function() {
+  if (window.innerWidth <= 768) { // Mobile only
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+    
     // Clear previous timeout
     clearTimeout(scrollTimeout);
     
-    // Set a new timeout to debounce the scroll events
+    // Use timeout to debounce and prevent flickering
     scrollTimeout = setTimeout(() => {
-      if (st > lastScrollTop && st > 100 && !isTextHidden) {
-        // Scrolling down and past threshold - hide text
-        navLinks.forEach(link => {
-          const textNodes = Array.from(link.childNodes).filter(node => 
-            node.nodeType === 3 && node.textContent.trim() !== ""
-          );
-          textNodes.forEach(node => {
-            node.style.display = 'none';
-          });
-        });
-        isTextHidden = true;
-        
-      } else if (st < lastScrollTop && isTextHidden) {
+      if (st > lastScrollTop && st > 50) {
+        // Scrolling down - hide text
+        document.body.classList.add('scrolled-down');
+      } else {
         // Scrolling up - show text
-        navLinks.forEach(link => {
-          const textNodes = Array.from(link.childNodes).filter(node => 
-            node.nodeType === 3
-          );
-          textNodes.forEach(node => {
-            node.style.display = 'inline';
-          });
-        });
-        isTextHidden = false;
+        document.body.classList.remove('scrolled-down');
       }
-    }, 50); // 50ms debounce delay
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, 50);
   }
   
-  lastScrollTop = st <= 0 ? 0 : st;
+  // Update active nav link
+  updateActiveNav();
 }, false);
+
+// Reset to show text when at top of page
+window.addEventListener('scroll', function() {
+  if (window.pageYOffset === 0) {
+    document.body.classList.remove('scrolled-down');
+  }
+});
+
+// Also update active nav on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updateActiveNav();
+});
+
+// Update active nav when clicking on links
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', function() {
+    // Remove active class from all links
+    document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+    // Add active class to clicked link
+    this.classList.add('active');
+  });
+});
 </script>
 
 
