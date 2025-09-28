@@ -2682,33 +2682,49 @@ function showSuccessMessage(msg) {
 </script>
 <script>
   let lastScrollTop = 0;
-  window.addEventListener("scroll", function () {
-    const navLinks = document.querySelectorAll("nav a");
-    let st = window.pageYOffset || document.documentElement.scrollTop;
+ let lastScrollTop = 0;
+let scrollTimeout;
+let isTextHidden = false;
 
-    if (window.innerWidth <= 768) { // phones/tablets only
-      if (st > lastScrollTop) {
-        // scrolling down → hide text
+window.addEventListener("scroll", function () {
+  const navLinks = document.querySelectorAll("nav a");
+  let st = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (window.innerWidth <= 768) {
+    // Clear previous timeout
+    clearTimeout(scrollTimeout);
+    
+    // Set a new timeout to debounce the scroll events
+    scrollTimeout = setTimeout(() => {
+      if (st > lastScrollTop && st > 100 && !isTextHidden) {
+        // Scrolling down and past threshold - hide text
         navLinks.forEach(link => {
-          link.childNodes.forEach(node => {
-            if (node.nodeType === 3) node.textContent = ""; // remove text
+          const textNodes = Array.from(link.childNodes).filter(node => 
+            node.nodeType === 3 && node.textContent.trim() !== ""
+          );
+          textNodes.forEach(node => {
+            node.style.display = 'none';
           });
         });
-      } else {
-        // scrolling up → show text again
+        isTextHidden = true;
+        
+      } else if (st < lastScrollTop && isTextHidden) {
+        // Scrolling up - show text
         navLinks.forEach(link => {
-          const icon = link.querySelector("i");
-          if (icon && !link.innerText.includes(icon.className)) {
-            if (!link.dataset.label) {
-              link.dataset.label = link.innerText.trim() || link.getAttribute("href").replace("#","");
-            }
-            link.innerHTML = icon.outerHTML + " " + link.dataset.label;
-          }
+          const textNodes = Array.from(link.childNodes).filter(node => 
+            node.nodeType === 3
+          );
+          textNodes.forEach(node => {
+            node.style.display = 'inline';
+          });
         });
+        isTextHidden = false;
       }
-    }
-    lastScrollTop = st <= 0 ? 0 : st; 
-  }, false);
+    }, 50); // 50ms debounce delay
+  }
+  
+  lastScrollTop = st <= 0 ? 0 : st;
+}, false);
 </script>
 
 
