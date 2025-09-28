@@ -321,16 +321,25 @@ header {
       margin: 0 auto;
     }
     
-    .hero h2 { 
-      font-size: 60px; 
-      margin-bottom: 20px; 
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      background: linear-gradient(45deg, #ff5722, #ff9800, #ff5722);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: gradient 3s ease infinite;
-    }
+  .hero h2 {
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  background: linear-gradient(
+    90deg,
+    #ff5722, #ff9800, #ffeb3b, #ff5722
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 400% auto;
+  animation: rainbow 6s linear infinite;
+}
+
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
     
     @keyframes gradient {
       0% { background-position: 0% 50%; }
@@ -419,11 +428,35 @@ header {
 }
 
 /* Moving text inside */
+/* Moving text inside */
 .notification span {
   display: inline-block;
-  padding-left: 100%; /* start off screen */
-  animation: moveText 15s linear infinite; /* default speed */
+  padding-left: 100%; 
+  animation: moveText 40s linear infinite; /* laptops/desktops: smooth & readable */
+  white-space: nowrap;
 }
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .notification span {
+    animation-duration: 40s;
+  }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+  .notification span {
+    animation-duration: 45s; /* slower for small screens */
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .notification span {
+    animation-duration: 50s; /* extra slow */
+  }
+}
+
 
 /* Animation */
 @keyframes moveText {
@@ -1786,7 +1819,8 @@ document.getElementsByTagName('head')[0].appendChild(script);
 
 <div class="notification">
   <span>
-    <i class="fas fa-gift"></i> DISPLAY FIXED🎉 Check out the improved website — new features, notification bell, search tab & fixed bugs... Enjoy the site!.TEXT ME THROUGH OUR CHAT BOX INCASE YOU ENCOUNTER ANY PROBLEM . ILL RESPOND AS SOON ASK I CAN 🎉
+    <i class="fas fa-gift"></i> 
+     🚀 Website Updates 🎉 | ✅ Tabs now show icons only when scrolling on phones 📱 | 🌈 A more colorful & animated “Welcome to DMNsales” 🎨 | 🔔 Notification bar is smoother & easier to read on laptops 💻 | 👉 Contact us anytime via the chat box if you face any issues 💬🤝 | ❤️ Thank you for choosing DMNsales ❤️ 💡  *The Future You Imagine* ✨ | 🌟 Stay tuned for more amazing features to come! ✨
   </span>
 </div>
 
@@ -2646,6 +2680,37 @@ function showSuccessMessage(msg) {
 }
 
 </script>
+<script>
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", function () {
+    const navLinks = document.querySelectorAll("nav a");
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (window.innerWidth <= 768) { // phones/tablets only
+      if (st > lastScrollTop) {
+        // scrolling down → hide text
+        navLinks.forEach(link => {
+          link.childNodes.forEach(node => {
+            if (node.nodeType === 3) node.textContent = ""; // remove text
+          });
+        });
+      } else {
+        // scrolling up → show text again
+        navLinks.forEach(link => {
+          const icon = link.querySelector("i");
+          if (icon && !link.innerText.includes(icon.className)) {
+            if (!link.dataset.label) {
+              link.dataset.label = link.innerText.trim() || link.getAttribute("href").replace("#","");
+            }
+            link.innerHTML = icon.outerHTML + " " + link.dataset.label;
+          }
+        });
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st; 
+  }, false);
+</script>
+
 
 </body>
 </html>
