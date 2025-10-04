@@ -251,7 +251,13 @@ header {
   }
   
   /* Always show text for active tab even when scrolled */
- 
+  body.scrolled-down nav a.active span.text {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    height: auto !important;
+    margin-top: 2px !important;
+  }
+}
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -264,21 +270,19 @@ html {
   }
 }
 
-/* Hide all tab names by default */
+/* Hide all tab names */
 nav a span.text {
-  display: none !important;  /* hard hide */
-  transition: none !important; /* kill animations */
+  display: none;
 }
 
-/* Show text only for the active tab */
+/* Show name only for the active tab */
 nav a.active span.text {
-  display: block !important;
+  display: block;
   font-size: 12px;
   margin-top: 4px;
   font-weight: 600;
   color: #ff5722;
 }
-
 
   .hamburger {
     display: none; /* no hamburger menu needed */
@@ -1206,8 +1210,7 @@ nav a.active span.text {
       padding: 3px 9px;
       margin-left: 6px;
       font-weight: bold;
-    }S
-
+    }
     /* Modern Contact Section */
     .contact-section {
       background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
@@ -1623,10 +1626,21 @@ nav a.active span.text {
         font-size: 18px;
       }
       
-      .products, .services {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
+     /* Phones: force 2 columns instead of 1 */
+@media (max-width: 768px) {
+  .products, .services {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products, .services {
+    grid-template-columns: repeat(2, 1fr); /* still 2 columns on very small phones */
+    gap: 12px;
+  }
+}
+
       
       .contact-buttons {
         flex-direction: column;
@@ -2900,7 +2914,7 @@ document.querySelectorAll('nav a').forEach(link => {
     document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
     // Add active class to clicked link
     this.classList.add('active');
-  });
+  });y
 });
 </script>
 
